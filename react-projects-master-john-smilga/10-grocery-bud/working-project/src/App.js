@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import List from "./List";
 import Alert from "./Alert";
+import { clear } from "@testing-library/user-event/dist/clear";
 
 function App() {
   const [name, setName] = useState("");
@@ -21,7 +22,7 @@ function App() {
     } else if (name && isEditing) {
       // deal with edit
     } else {
-      // show alert
+      showAlert(true, "item added to the list", "success");
       const newItem = { id: new Date().getTime().toString(), title: name };
       setList([...list, newItem]);
       setName("");
@@ -30,6 +31,10 @@ function App() {
 
   const showAlert = (show = false, msg = "", type = "") => {
     setAlert({ show, msg, type });
+  };
+  const clearList = () => {
+    showAlert(true, "empty list", "danger");
+    setList([]);
   };
   return (
     <section className="section-center">
@@ -52,7 +57,9 @@ function App() {
       {list.length > 0 && (
         <div className="grocery-container">
           <List items={list} />
-          <button className="clear-btn">clear items</button>
+          <button className="clear-btn" onClick={clearList}>
+            clear items
+          </button>
         </div>
       )}
     </section>
