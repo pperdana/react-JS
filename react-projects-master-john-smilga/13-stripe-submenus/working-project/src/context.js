@@ -6,6 +6,7 @@ const AppContext = React.createContext();
 export const AppProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [location, seLocation] = useState({});
 
   const openSidebar = () => {
     setIsSidebarOpen(true);
@@ -15,7 +16,8 @@ export const AppProvider = ({ children }) => {
     setIsSidebarOpen(false);
   };
 
-  const openSubMenu = () => {
+  const openSubMenu = (text, coordinates) => {
+    seLocation(coordinates);
     setIsSubMenuOpen(true);
   };
 
@@ -31,6 +33,7 @@ export const AppProvider = ({ children }) => {
         openSidebar,
         closeSubMenu,
         closeSidebar,
+        location,
       }}
     >
       {children}
