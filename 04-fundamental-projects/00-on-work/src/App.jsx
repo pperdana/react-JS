@@ -1,64 +1,69 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FaChevronLeft, FaChevronRight, FaQuoteRight } from "react-icons/fa";
 
-const url = "https://course-api.com/react-tours-project";
-
-import Loading from "./Loading";
-import Tours from "./Tours";
+import people from "./data";
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [tours, setTours] = useState([]);
+  const [index, setIndex] = useState(0);
+  const { name, job, image, text } = people[index];
+  console.log(index);
 
-  const removeTour = (id) => {
-    const newTour = tours.filter((tour) => tour.id !== id);
-    setTours(newTour);
-  };
-
-  const fetchTours = async () => {
-    setIsLoading(true);
-    try {
-      const resp = await fetch(url);
-      const tours = await resp.json();
-      setTours(tours);
-    } catch (error) {
-      console.log(error);
+  const checkNumber = (number) => {
+    if (number > people.length - 1) {
+      return 0;
     }
-    setIsLoading(false);
+    if (number < 0) {
+      return people.length - 1;
+    }
+    return number;
   };
 
-  useEffect(() => {
-    fetchTours();
-  }, []);
+  const nextPerson = () => {
+    setIndex((currentIndex) => {
+      const newIndex = currentIndex + 1;
+      return checkNumber(newIndex);
+    });
+  };
 
-  if (isLoading) {
-    return (
-      <main>
-        <Loading />
-      </main>
-    );
-  }
+  const prevPerson = () => {
+    setIndex((currentIndex) => {
+      const newIndex = currentIndex - 1;
+      return checkNumber(newIndex);
+    });
+  };
 
-  if (tours.length === 0) {
-    return (
-      <main>
-        <div className="title">
-          <h2>no tours left</h2>
-          <button
-            type="button"
-            style={{ marginTop: "2rem" }}
-            className="btn"
-            onClick={fetchTours}
-          >
-            referesh
-          </button>
-        </div>
-      </main>
-    );
-  }
+  const randomPerson = () => {
+    let randNum = Math.floor(Math.random() * people.length);
+    if (randNum === index) {
+      randNum = index + 1;
+    }
+    setIndex(checkNumber(randNum));
+  };
 
   return (
     <main>
-      <Tours tours={tours} removeTour={removeTour} />
+      <article className="review">
+        <div className="img-container">
+          <img src={image} alt={name} className="person-img" />
+          <span className="quote-icon">
+            <FaQuoteRight />
+          </span>
+        </div>
+        <h4 className="author">{name}</h4>
+        <p className="job">{job}</p>
+        <p className="info">{text}</p>
+        <div className="btn-container">
+          <button className="prev-btn" onClick={prevPerson}>
+            <FaChevronLeft />
+          </button>
+          <button className="next-btn" onClick={nextPerson}>
+            <FaChevronRight />
+          </button>
+        </div>
+        <button className="btn btn-hipster" onClick={randomPerson}>
+          suprise me
+        </button>
+      </article>
     </main>
   );
 };
