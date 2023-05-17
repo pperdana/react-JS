@@ -1,62 +1,36 @@
 ## Figma URL
 
-[Reviews](https://www.figma.com/file/e8L2QiR4GVTa5cGuRpXtk3/Reviews?node-id=0%3A1&t=gcCYcePiKxnkJ9kH-1)
+[Accordion](https://www.figma.com/file/TAwJ3kWOqkw0o8UVtAMOHO/Accordion?node-id=0%3A1&t=1YEti8xBykw69tBH-1)
 
 ## Steps
 
-#### Explore Data
+#### Examine and Import Data
 
-Navigate to data.js and take a look at the data structure
+Review data.js and import the questions array from data.js into your project. This array should contain objects that represent the questions and their associated data, such as the question text
 
-#### Import Reviews
+#### Setup State Value
 
-First, import the reviews data into your project. This data should be an array of objects, with each object representing a person's review and containing properties such as name, job, image URL, and text.
+Next, set up the questions array as a state variable using the useState hook. This will allow you to modify the data and have those changes automatically reflected in the rendered output.
 
-#### Setup State Value (Index)
+#### Render Questions
 
-Then, set up a state value that controls which person from the list is displayed.
+To display the list of questions, you can iterate over the questions array and render a SingleQuestion component for each item in the array. Each SingleQuestion component should display the question text in the header, along with a button to toggle the question text.
 
-#### React Icons (Optional)
+#### Toggle Question
 
-[Docs](https://react-icons.github.io/react-icons/)
+In the SingleQuestion component, you can set up the functionality for the toggle button by defining a function that toggles the state of a "showInfo" flag. When the flag is set to true, the answer text will be displayed. When the flag is set to false, only the question text will be displayed.
 
-```sh
-npm install react-icons --save
-```
+#### Extra Challenge
 
-App.jsx
-
-```js
-import { FaBeer } from 'react-icons/fa';
-const App = () => {
-  return;
-  <div>
-    <h2>Reviews Starter</h2>;
-    <FaBeer className='beer' />
-  </div>;
-};
-```
-
-#### Render First Person
-
-To render the first person in the list, you can access the first item in the reviews array and use its properties to display the person's image (inline styles), name, job, and review text.
-
-#### Prev and Next
-
-To allow the user to cycle through the reviews, you can set up buttons to display the next and previous reviews in the list. You can do this by keeping track of the current index in the reviews array, and updating the index when the user clicks the next or previous button. You can then use the updated index to access the corresponding person's review from the reviews array.
-
-#### Random
-
-To allow the user to display a random person's review, you can set up a button with functionality to randomly select an index in the reviews array. You can then use the selected index to display the corresponding person's review.
-
-#### Extra
-
-The modulus operator in JavaScript is represented by the percent sign (%). It returns the remainder of a division operation between two numbers.
+To set up the functionality where only one question is displayed at a time, you can modify the state of the questions array to keep track of the currently selected question. You can do this by defining a function that updates the state to reflect the selected question index. Then, you can use the selected question index to render only the SingleQuestion component that corresponds to the currently selected question.
 
 Overall, the flow of the application should look something like this:
 
-- Import the reviews data into your project as an array of objects.
-- Set up the reviews data as a state variable using the useState hook.
-- Render the first person's review in the list using their image, name, job, and text properties.
-- Set up buttons to display the next and previous reviews in the list. Keep track of the current index in the reviews array and update it when the user clicks the next or previous button.
-- Set up a button to display a random person's review. This button should select a random index in the reviews array and use it to display the corresponding person's review.
+- Import the questions array from data.js into your project.
+- Set up the questions array as a state variable using the useState hook.
+- Iterate over the questions array and render a SingleQuestion component for each item in the array.
+- In the SingleQuestion component, display the question text in the header and a button to toggle the question text.
+- Define a function that toggles the state of a "showAnswer" flag, which determines whether the answer text is displayed or not.
+- Modify the state of the questions array to keep track of the currently selected question index.
+- Define a function that updates the state to reflect the selected question index.
+- Use the selected question index to render only the SingleQuestion component that corresponds to the currently selected question.
