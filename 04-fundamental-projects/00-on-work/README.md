@@ -1,136 +1,99 @@
 ## Figma URL
 
-[Color generator](https://www.figma.com/file/P2SJ5QGOZvi49EOpoVTvsT/Color-generator?node-id=0%3A1&t=ZY2gnIJ9zGTSXPW8-1)
+[Grocery Bud](https://www.figma.com/file/8rXGl68NoEmAhHpcV7aB5o/Grocery-bud?node-id=0%3A1&t=IMjjwDExGWpXdpQL-1)
 
 ## Steps
 
-#### Setup
+#### State Variable
 
-Create three components: Form, ColorList, and SingleColor.
-
-In the App component, render the Form and ColorList components.
+In App.jsx, set up a state variable called items using the useState hook.
 
 #### Form Component
 
-In the Form component, set up a color state value and a form with an two input fields (color and text). Set up a handleChange function to update the color state value and a handleSubmit function to add the color to the list.
+Create a Form component that contains an input field and a submit button. When the user submits the form, the handleSubmit function is called.
 
-[HTML Color Input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color)
+In the handleSubmit function, prevent the default form submission behavior using event.preventDefault(). If the form is submitted with an empty value, log a message and return.
 
-#### Values.js
+#### Add Item
 
-Install the values.js library and use it to generate a list of colors in the App component.
+If the form is submitted with a value, create a new item object that includes a name (taken from the form input), a completed property (default value false), and a unique id (generated using a library like uuid or nanoid).
 
-[Values.js Library](https://github.com/noeldelgado/values.js/blob/master/README.md)
+Add the new item to the items state variable using the setItems function.
 
-```sh
-npm i values.js
+#### Render List
 
-```
+Create two new components: Items and SingleItem. In Items, iterate over the list of items and render each one in a SingleItem component. For now, only render the name of the item.
 
-```js
-import Values from 'values.js';
-new Values('#f15025').all(10);
-```
+#### SingleItem
 
-#### Render Colors
+In SingleItem, set up a state variable called isChecked with a default value of the item's completed property. Render a checkbox and add inline styles to add or remove the text-decoration: line-through property based on the isChecked value. Set up functionality to toggle the isChecked state variable when the checkbox is clicked.
 
-Pass the colors list to the ColorList component.
+#### Remove Item
 
-In the ColorList component, iterate over the list of colors and render each one in a SingleColor component. Fix the key problem by providing a unique id for each color.
+In App.jsx, create a removeItem function and pass it down to the SingleItem component. In SingleItem, add a button that, when clicked, removes the item from the list.
 
-In the SingleColor component, display the hex value and weight (percent) of each color, and use inline CSS to set the background color of the component.
+#### Local Storage
+
+Set up local storage functionality to persist the list of items across page reloads.
+More info below.
+
+#### Global Edit
+
+Instead of 'local' value, set completed 'globally' (in the list) and save result in the local storage.
 
 #### React-Toastify
 
-Import and set up the react-toastify library.
+Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
 
-[React Toastify](https://fkhadra.github.io/react-toastify/introduction)
+Overall, the flow of the application should look something like this:
 
-```sh
-npm i react-toastify
-```
+- In App.jsx, set up a state variable called items using the useState hook.
+- Create a Form component that contains an input field and a submit button, and set up the handleSubmit function to add new items to the list.
+- Create two new components: Items and SingleItem, and use them to render the list of items.
+- Set up local storage functionality to persist the list of items across page reloads.
+- Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
 
-main.jsx
+#### Local Storage
 
-```js
-import 'react-toastify/dist/ReactToastify.css';
-```
+localStorage is a built-in object in web browsers that allows web applications to store key-value pairs locally within the user's browser.
 
-App.jsx
+To store data in localStorage, you can use the localStorage.setItem(key, value) method, where key is a unique identifier for the data being stored and value is the data you want to store. Note that the value parameter needs to be a string.
 
-```js
-import { ToastContainer, toast } from 'react-toastify';
-
-toast.success('awesome');
-toast.error('error message');
-
-return (
-  <main>
-    ...............
-    <ToastContainer position='top-center' />
-  </main>
-);
-```
-
-#### Create Color
-
-In the App component, create logic to generate a new list of colors when the user submits a new color value. Use react-toastify to display an error message if the values.js library cannot generate a color, and also display a toast message if the user tries to submit an empty value.
-
-#### Clipboard
-
-In the SingleColor component, set up a click handler that saves the hex value of the color to the browser clipboard.
-
-To save some value in the navigator clipboard, you can use the Clipboard API, which is a part of the Web API provided by modern browsers. The Clipboard API allows web developers to interact with the user's clipboard, including reading and writing data to it.
-
-Here is an example of how to save a string value to the clipboard using the Clipboard API:
+Here's an example of how to use localStorage.setItem():
 
 ```js
-async function copyToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    console.log('Text copied to clipboard');
-  } catch (error) {
-    console.error('Failed to copy text: ', error);
-  }
-}
-
-const textToCopy = 'Hello, world!';
-copyToClipboard(textToCopy);
+localStorage.setItem('username', 'John');
 ```
 
-The flow of the application should look something like this:
+This code stores the string 'John' with the key 'username' in localStorage.
 
-- Create the Form, ColorList, and SingleColor components.
+To retrieve data from localStorage, you can use the localStorage.getItem(key) method, where key is the unique identifier for the data you want to retrieve. This method returns the value associated with the key you pass in, as a string.
 
-- In the App component, render the Form and ColorList components.
+Here's an example of how to use localStorage.getItem() to retrieve the value of the 'username' key we set earlier:
 
-- In the Form component, set up a color state value and a form with an input field. Set up a handleChange function to update the color state value and a handleSubmit function to add the color to the list.
-
-- Install the values.js library and use it to generate a list of colors in the App component. Pass the colors list to the ColorList component.
-
-- In the ColorList component, iterate over the list of colors and render each one in a SingleColor component. Fix the key problem by providing a unique id for each color.
-
-- In the SingleColor component, display the hex value and weight (percent) of each color, and use inline CSS to set the background color of the component.
-
-- Import and set up the react-toastify library. In the App component, create logic to generate a new list of colors when the user submits a new color value. Use react-toastify to display an error message if the values.js library cannot generate a color, and also display a toast message if the user tries to submit an empty value.
-
-- In the SingleColor component, set up a click handler that saves the hex value of the color to the browser clipboard.
-
-#### CSS
-
-```css
-.colors {
-  min-height: calc(100vh - 160px);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(223.33px, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(96px, 1fr));
-}
+```js
+const username = localStorage.getItem('username');
+console.log(username); // outputs 'John'
 ```
 
-min-height: calc(100vh - 160px); - This line sets the minimum height of the element. It uses the calc() function to subtract 160 pixels from the viewport height (100vh). The viewport height unit (vh) is relative to the height of the browser window. This means the element will take up at least the full viewport height minus 160 pixels.
+Note that localStorage can only store strings, so if you need to store objects or other data types, you'll need to convert them to strings first. One way to do this is to use JSON.stringify() to convert your data to a JSON string before storing it in localStorage, and then use JSON.parse() to convert it back to an object when you retrieve it.
 
-display: grid; - This line sets the element's display property to 'grid', enabling the use of the CSS Grid Layout module to arrange its child elements in a grid format.
+For example:
 
-grid-template-columns: repeat(auto-fit, minmax(223.33px, 1fr)); - This line defines the number of columns and their width in the grid. The repeat() function is used with the auto-fit keyword, which automatically calculates the number of columns based on the container's width and the minimum and maximum column widths specified in minmax(223.33px, 1fr). The minimum width is set to 223.33 pixels, while the maximum width is set to 1 fraction (1fr) of the available space.
+```js
+const user = {
+  name: 'John',
+  age: 30,
+  email: 'john@example.com',
+};
 
-grid-template-rows: repeat(auto-fit, minmax(96px, 1fr)); - This line defines the number of rows and their height in the grid, similar to the previous property. The repeat() function is used with the auto-fit keyword, and the minmax() function defines the minimum row height as 96 pixels and the maximum height as 1 fraction (1fr) of the available space.
+localStorage.setItem('user', JSON.stringify(user));
+
+const storedUser = JSON.parse(localStorage.getItem('user'));
+
+console.log(storedUser.name); // outputs 'John'
+console.log(storedUser.age); // outputs 30
+console.log(storedUser.email); // outputs 'john@example.com'
+```
+
+In summary, localStorage allows you to store key-value pairs locally in the user's browser using localStorage.setItem() and retrieve those values using localStorage.getItem(). However, note that localStorage can only store strings, so you'll need to convert other data types to strings before storing them.

@@ -1,33 +1,35 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const Form = ({ addColor }) => {
-  const [color, setColor] = useState("");
+const Form = ({ addItems }) => {
+  const [newItemName, setNewItemName] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addColor(color);
+    // console.log(newItemName);
+    if (!newItemName) {
+      toast.error("please provide value");
+      return;
+    }
+    addItems(newItemName);
+    setNewItemName("");
   };
 
   return (
-    <section className="container">
-      <h4>color generator</h4>
-      <form className="color-form" onSubmit={handleSubmit}>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
+    <form onSubmit={handleSubmit}>
+      <h4>grocery bud</h4>
+      <div className="form-control">
         <input
           type="text"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          placeholder="#f15025"
+          className="form-input"
+          value={newItemName}
+          onChange={(e) => setNewItemName(e.target.value)}
         />
-        <button className="btn" type="submit" style={{ background: color }}>
-          submit
+        <button type="submit" className="btn">
+          add item
         </button>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 };
 
