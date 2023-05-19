@@ -14,15 +14,15 @@ html {
 
 :root {
   /* colors */
-  --primary-100: #d1fae5;
-  --primary-200: #a7f3d0;
-  --primary-300: #6ee7b7;
-  --primary-400: #34d399;
-  --primary-500: #10b981;
-  --primary-600: #059669;
-  --primary-700: #047857;
-  --primary-800: #065f46;
-  --primary-900: #064e3b;
+  --primary-100: #e2e0ff;
+  --primary-200: #c1beff;
+  --primary-300: #a29dff;
+  --primary-400: #837dff;
+  --primary-500: #645cff;
+  --primary-600: #504acc;
+  --primary-700: #3c3799;
+  --primary-800: #282566;
+  --primary-900: #141233;
 
   /* grey */
   --grey-50: #f8fafc;
@@ -253,43 +253,65 @@ ul {
   margin-top: 1rem;
 }
 /* ============= PROJECT CSS =============== */
-.section-center {
-  width: 80vw;
-  max-width: 40rem;
-  margin: 10rem auto;
+
+.container {
+  padding: 2rem;
+  display: grid;
+  row-gap: 1.5rem;
+  height: 160px;
 }
-.section-center h4 {
-  text-transform: uppercase;
-  text-align: center;
-}
-.lorem-form {
-  text-transform: capitalize;
-  letter-spacing: var(--letterSpacing);
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+
+.color-form {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
 }
-.lorem-form label {
-  font-size: 1.25rem;
-}
-
-.lorem-form input {
-  padding: 0.25rem 0.5rem;
-  width: 4rem;
-  border-radius: var(--borderRadius);
+input[type='text'] {
   border-color: transparent;
-  background: var(--grey-300);
+  padding: 0.5rem 1rem;
   font-size: 1.25rem;
+  max-width: 200px;
+}
+input[type='color'] {
+  height: 100%;
+  background-color: var(--white);
+  border-color: var(--white);
+}
+.container .btn {
+  border-radius: 0;
+  border-top-right-radius: var(--borderRadius);
+  border-bottom-right-radius: var(--borderRadius);
+  letter-spacing: 3px;
+  transition-duration: 0s;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    grid-template-columns: auto 1fr;
+    column-gap: 2rem;
+    align-items: center;
+  }
+  .color-form {
+    height: 40px;
+  }
 }
 
-.lorem-form .btn {
-  align-self: stretch;
+.colors {
+  min-height: calc(100vh - 160px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(223.33px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(96px, 1fr));
+}
+.color {
+  padding: 1rem 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.color p {
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
 }
 
-.lorem-text p {
-  line-height: 2;
-  margin-bottom: 2rem;
+.color-light .color-value {
+  color: var(--white);
+}
+.color-light .percent-value {
+  color: var(--white);
 }
