@@ -1,31 +1,43 @@
+import { nanoid } from "nanoid";
 import { useState } from "react";
 
-import Title from "./Title";
-import menu from "./data";
-import Menu from "./Menu";
-import Categories from "./Categories";
-
-const allCategories = ["all", ...new Set(menu.map((item) => item.category))];
+import data from "./data";
 
 const App = () => {
-  const [menuItems, setMenuItems] = useState(menu);
-  const [categories, setCategories] = useState(allCategories);
-  const filterItems = (category) => {
-    if (category === "all") {
-      setMenuItems(menu);
-      return;
-    }
-    const newItems = menu.filter((item) => item.category === category);
-    setMenuItems(newItems);
+  const [count, setCount] = useState(1);
+  const [text, setText] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let amount = parseInt(count);
+    setText(data.slice(0, amount));
   };
+
   return (
-    <main>
-      <section className="menu">
-        <Title text="our menu" />
-        <Categories categories={categories} filterItems={filterItems} />
-        <Menu items={menuItems} />
-      </section>
-    </main>
+    <section className="section-center">
+      <h4>tired of boring lorem ipsum</h4>
+      <form className="lorem-form" onSubmit={handleSubmit}>
+        <label htmlFor="amount">paragraph:</label>
+        <input
+          type="number"
+          name="amount"
+          id="amount"
+          min="1"
+          step="1"
+          max="8"
+          value={count}
+          onChange={(e) => setCount(e.target.value)}
+        />
+        <button className="btn" type="submit">
+          generate
+        </button>
+      </form>
+      <article className="lorem-text">
+        {text.map((item) => {
+          return <p key={nanoid()}>{item}</p>;
+        })}
+      </article>
+    </section>
   );
 };
 export default App;

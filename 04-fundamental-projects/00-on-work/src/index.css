@@ -14,15 +14,15 @@ html {
 
 :root {
   /* colors */
-  --primary-100: #fef3c7;
-  --primary-200: #fde68a;
-  --primary-300: #fcd34d;
-  --primary-400: #fbbf24;
-  --primary-500: #f59e0b;
-  --primary-600: #d97706;
-  --primary-700: #b45309;
-  --primary-800: #92400e;
-  --primary-900: #78350f;
+  --primary-100: #d1fae5;
+  --primary-200: #a7f3d0;
+  --primary-300: #6ee7b7;
+  --primary-400: #34d399;
+  --primary-500: #10b981;
+  --primary-600: #059669;
+  --primary-700: #047857;
+  --primary-800: #065f46;
+  --primary-900: #064e3b;
 
   /* grey */
   --grey-50: #f8fafc;
@@ -253,78 +253,43 @@ ul {
   margin-top: 1rem;
 }
 /* ============= PROJECT CSS =============== */
-
-.menu {
-  padding: 5rem 0;
+.section-center {
+  width: 80vw;
+  max-width: 40rem;
+  margin: 10rem auto;
 }
-
-.btn-container {
-  margin: 2rem 0 4rem 0;
+.section-center h4 {
+  text-transform: uppercase;
+  text-align: center;
+}
+.lorem-form {
+  text-transform: capitalize;
+  letter-spacing: var(--letterSpacing);
+  margin-top: 2rem;
+  margin-bottom: 4rem;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem;
 }
-.section-center {
-  width: 90vw;
-  margin: 0 auto;
-  max-width: var(--max-width);
-  display: grid;
-  gap: 2rem;
+.lorem-form label {
+  font-size: 1.25rem;
 }
 
-.menu-item {
-  background: var(--white);
-  border-radius: var(--borderRadius);
-}
-.menu-item .img {
-  height: 15rem;
-  border-top-right-radius: var(--borderRadius);
-  border-top-left-radius: var(--borderRadius);
-}
-.item-info {
-  padding: 1.5rem;
-}
-.item-info header {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.item-info h5 {
-  font-weight: 500;
-}
-.item-price {
-  background: var(--primary-500);
-  color: var(--white);
+.lorem-form input {
   padding: 0.25rem 0.5rem;
-  letter-spacing: var(--letterSpacing);
+  width: 4rem;
   border-radius: var(--borderRadius);
+  border-color: transparent;
+  background: var(--grey-300);
+  font-size: 1.25rem;
 }
 
-.item-text {
+.lorem-form .btn {
+  align-self: stretch;
+}
+
+.lorem-text p {
   line-height: 2;
-  color: var(--grey-500);
-}
-
-.section-center {
-  justify-items: center;
-}
-.menu-item {
-  max-width: 25rem;
-}
-
-@media screen and (min-width: 992px) {
-  .section-center {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
-}
-@media screen and (min-width: 1170px) {
-  .section-center {
-    width: 95vw;
-    grid-template-columns: repeat(3, 1fr);
-  }
+  margin-bottom: 2rem;
 }

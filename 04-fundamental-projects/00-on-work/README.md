@@ -1,96 +1,79 @@
 ## Figma URL
 
-[Menu](https://www.figma.com/file/PwlnSJXCuo4qD2o6EJiuj9/Menu?node-id=0%3A1&t=oaKVwYVqc9Oon2Ts-1)
+[Lorem Ipsum](https://www.figma.com/file/JRDDc3aN6uiBS3yvjbkk0s/Lorem-ipsum?node-id=0%3A1&t=cLtQmBowNmb4V0jP-1)
 
 ## Steps
 
-#### Title Component
+#### Explore Data
 
-First, you need to create a Title component to display the main title of your app. This component can be a simple function that returns a heading element with the app title.
+Navigate to data.js and explore array
 
-#### Explore and Import Data
+#### Count State Value
 
-Import the menu items data from data.js into your project. This data should be an array of objects, with each object representing a menu item and containing properties such as title, price, image URL, and description.
+In App.jsx, set up a count state value using the useState hook. Set the default value to 1.
 
-#### State Value
+#### Form
 
-Set up the menu items data as a state variable in the App.jsx component using the useState hook. This will allow you to modify the data and have those changes automatically reflected in the rendered output.
+Set up a form element that contains a number input and a submit button. Attach the count state value to the input using the value prop, and set up a handleChange function to update the count state value when the input changes. Set the minimum value to 1, the maximum value to 8, and the step to 1.
 
-#### Render Items
+#### Import Text and State Value
 
-Pass the menu items state value down to the Menu.jsx component. In the Menu component, iterate over the list of menu items using the map method, and for every item, render a MenuItem component.
+Import the text array from data.js and set up a text state value using the useState hook. Set the default value to an empty array.
 
-In the MenuItem component, render an image element, a title, a price, and a description. You can use the data from the menu items array to fill in the information for each component.
+#### OnSubmit
 
-#### Unique Categories
+Attach an onSubmit event to the form, and create a handleSubmit function to handle the form submission. Inside the handleSubmit function, prevent the default form submission behavior using event.preventDefault(). Get the count state value, and use it to create a new array by extracting the first n paragraphs from the text array (where n is the count state value). Set the text state value to the new array.
+Hint : I will use array.slice()
+Additional info below
 
-In the App.jsx component, set up functionality to get only the unique categories from the menu items data and store them in a separate array. Add an "all" category to this array to display all menu items.
-Hint : new Set ()
-You can find more info on Set Object below after all steps.
+#### Render Text
 
-#### State Value and Render Categories
-
-Set up the categories array as a state variable in the App.jsx component using the useState hook. This will allow you to modify the data and have those changes automatically reflected in the rendered output.
-
-Create a Categories component and pass the categories state value down to this component. In the Categories component, iterate over the categories array and render buttons for each category.
-
-#### Filter Functionality
-
-Set up filter functionality where once the user clicks on the button, only the menu items that belong to the selected category are displayed. To do this, define a function that takes a category as a parameter and updates the state to show only the menu items that belong to that category. You can then pass this function down to the Categories component as a prop, and attach it to the buttons.
-
-When the user clicks on a category button, the filter function should be called with the selected category as a parameter. The function should then update the state to show only the menu items that belong to the selected category.
+Render the text state value below the form. You will need to use the map method to iterate over the array and render each paragraph. Use the nanoid (more info below) library to generate unique ids for each paragraph.
 
 Overall, the flow of the application should look something like this:
 
-- Create a Title component to display the app title.
-- Import the menu items data from data.js into your project.
-- Set up the menu items data as a state variable in the App.jsx component.
-- Pass the menu items state value down to the Menu.jsx component and render a MenuItem component for each item in the menu items array.
-- In the MenuItem component, display the image, title, price, and description.
-- Set up functionality to get only the unique categories from the menu items data and store them in a separate array, including an "all" category to display all menu items.
-- Set up the categories array as a state variable in the App.jsx component.
-- Create a Categories component and render a button for each category in the categories array.
-- Define a function that takes a category as a parameter and updates the state to show only the menu items that belong to that category.
-- Attach the filter function to the category buttons in the Categories component.
-- Repeat steps 9-10 until the user has selected a different category or chooses to exit the Menu component.
+- In App.jsx, set up a count state value using the useState hook.
+- Set up a form element that contains a number input and a submit button.
+- Import the text array from data.js and set up a text state value using the useState hook.
+- Attach an onSubmit event to the form, and create a handleSubmit function to handle the form submission.
+- Render the text state value below the form using the map method to iterate over the array and render each paragraph with a unique id generated by the nanoid library.
 
-#### Set Object
+#### Array.slice()
 
-[JS Nuggets - new Set()](https://www.youtube.com/watch?v=H4NnCItCZWE&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ&index=26)
+array.slice is a method in JavaScript that returns a shallow copy of a portion of an array into a new array object. The slice() method takes two arguments: the starting index and the ending index of the portion of the array that you want to copy. The starting index is inclusive, meaning the element at the starting index is included in the copied portion, and the ending index is exclusive, meaning the element at the ending index is not included in the copied portion.
 
-In JavaScript, the Set object is a collection of unique values. It allows you to store values of any type, such as primitive types (numbers, strings, booleans) and object references.
-
-Here's a simple example of using a Set:
+Here's an example:
 
 ```js
-// Create a new set
-let mySet = new Set();
+const fruits = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
 
-// Add values to the set
-mySet.add(1);
-mySet.add(2);
-mySet.add(3);
+const slicedFruits = fruits.slice(1, 4); // copies elements 1, 2, and 3 (but not 4) into a new array
 
-// Add a duplicate value (ignored)
-mySet.add(1);
+console.log(slicedFruits); // ['banana', 'cherry', 'date']
+```
 
-// Get the size of the set (3)
-console.log(mySet.size);
+In this example, the slice() method is called on the fruits array, with arguments of 1 and 4. This copies elements 1, 2, and 3 of the fruits array into a new array object, which is assigned to the slicedFruits variable. The console.log() statement then outputs the new slicedFruits array to the console.
 
-// Check if a value is in the set (true)
-console.log(mySet.has(2));
+#### nanoid
 
-// Remove a value from the set
-mySet.delete(2);
+nanoid is a small, fast, and secure library for generating unique IDs in JavaScript. It is designed to be as compact as possible while still providing a unique, unpredictable, and collision-resistant identifier.
 
-// Get an array of all values in the set
-let myArray = Array.from(mySet);
-console.log(myArray); // [1, 3]
+The library generates random IDs that consist of a combination of uppercase and lowercase letters, as well as numbers. The default ID length is 21 characters, but this can be changed by passing a different length as an argument.
+
+Here's an example of how to use nanoid to generate a unique ID:
+
+```sh
+npm i nanoid
 ```
 
 ```js
-const tempCategories = menu.map((item) => item.category);
-const tempSet = new Set(tempCategories);
-const tempItems = ['all', ...tempSet];
-console.log(tempItems);
+import { nanoid } from 'nanoid';
+
+const id = nanoid(); // Generates a 21-character random ID
+
+console.log(id); // Output: "Uakgb_J5m9g-0JDMbcJqL"
 ```
+
+In this example, we first import the nanoid function from the nanoid library. We then call the nanoid() function to generate a new, random ID. Finally, we output the ID to the console.
+
+One of the benefits of using nanoid is that it generates IDs that are highly unlikely to collide, even when generating a large number of them. This is achieved by using a combination of randomness and a predefined set of characters, which ensures that each ID is unique and unpredictable.
