@@ -1,71 +1,59 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
+import "./App.scss";
 
-import data from "./data";
+import Tours from "./Tours";
+import Loading from "./Loading";
 
-import PeopleList from "./PeopleList";
+const url = "https://course-api.com/react-tours-project";
 
 const App = () => {
-  const [people, setPeople] = useState(data);
+  const [tours, setTours] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const removeTour = (tourId) => {
+    const newTours = tours.filter((item) => item.id !== tourId);
+    setTours(newTours);
+  };
+
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      setTours(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (tours.length === 0) {
+    return (
+      <main className="main main-no-tours">
+        <h1>No tours left</h1>
+        <button className="btn refresh-btn" onClick={() => fetchData()}>
+          refresh
+        </button>
+      </main>
+    );
+  }
 
   return (
-    <Main>
-      <Container>
-        <h1 className="title">{people.length} birthdays today</h1>
-        <PeopleList people={people} />
-        <Button className="btn" onClick={() => setPeople([])}>
-          clear all
-        </Button>
-      </Container>
-    </Main>
+    <main className="main">
+      <section className="container">
+        <h1>Our Tours</h1>
+        <div className="divider" />
+        <Tours tours={tours} removeTour={removeTour} />
+      </section>
+    </main>
   );
 };
-
 export default App;
-
-const Main = styled.main`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Container = styled.section`
-  background-color: #ffffff;
-  width: 60rem;
-  padding: 2.4rem 3.2rem;
-
-  background: #ffffff;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-  border-radius: 4px;
-
-  .title {
-    font-weight: 400;
-    margin-bottom: 3.2rem;
-    text-transform: capitalize;
-    letter-spacing: 1px;
-  }
-
-  .btn:hover {
-    background-color: #a02bb2;
-  }
-`;
-
-const Button = styled.button`
-  display: inline-block;
-
-  font-family: "Arial";
-  text-transform: capitalize;
-  color: #ffffff;
-  letter-spacing: 1px;
-
-  width: 536px;
-  height: 27px;
-  background-color: #d946ef;
-  border: none;
-  border-radius: 5px;
-
-  cursor: pointer;
-  transition: all 0.3s;
-`;
