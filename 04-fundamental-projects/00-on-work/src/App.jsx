@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaQuoteRight } from "react-icons/fa";
 
 import Text from "./Text";
 import ArrowBtn from "./ArrowBtn";
@@ -47,6 +48,9 @@ const App = () => {
       <section className="container">
         <div className="img-box">
           <img src={image} alt={name} className="img" />
+          <div className="quote-box">
+            <FaQuoteRight className="quote-icon" />
+          </div>
         </div>
         <Text name={name} job={job} text={text} />
         <ArrowBtn decIdx={decIdx} incIdx={incIdx} />
