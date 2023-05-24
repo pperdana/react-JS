@@ -1,104 +1,60 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useState } from "react";
 
-import Tours from "./Tours";
-import Loading from "./Loading";
+import Text from "./Text";
+import ArrowBtn from "./ArrowBtn";
 
-const url = "https://course-api.com/react-tours-project";
+import "./App.scss";
+import data from "./data";
 
 const App = () => {
-  const [tours, setTours] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [idx, setIdx] = useState(0);
+  const [people, setPeople] = useState(data);
 
-  const removeTour = (tourId) => {
-    const newTours = tours.filter((item) => item.id !== tourId);
-    setTours(newTours);
+  const { image, job, name, text } = people[idx];
+  console.log(`Current Id state: ${idx}`);
+
+  const incIdx = () => {
+    let newIdx = checkIdx(idx + 1);
+    setIdx(newIdx);
   };
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      setTours(data);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
+  const decIdx = () => {
+    let newIdx = checkIdx(idx - 1);
+    setIdx(newIdx);
+  };
+
+  const handleSurprise = () => {
+    let newIdx = Math.floor(Math.random() * 4);
+    if (newIdx === idx) {
+      newIdx += 1;
+      newIdx = checkIdx(newIdx);
     }
+    setIdx(newIdx);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (tours.length === 0) {
-    return (
-      <MainNoTours>
-        <h1>No tours left</h1>
-        <button className="btn refresh-btn" onClick={() => fetchData()}>
-          refresh
-        </button>
-      </MainNoTours>
-    );
-  }
+  const checkIdx = (newIdx) => {
+    if (newIdx === data.length) {
+      return 0;
+    }
+    if (newIdx < 0) {
+      return 3;
+    }
+    return newIdx;
+  };
 
   return (
-    <Main>
-      <Container>
-        <h1>Our Tours</h1>
-        <div className="divider" />
-        <Tours tours={tours} removeTour={removeTour} />
-      </Container>
-    </Main>
+    <main>
+      <section className="container">
+        <div className="img-box">
+          <img src={image} alt={name} className="img" />
+        </div>
+        <Text name={name} job={job} text={text} />
+        <ArrowBtn decIdx={decIdx} incIdx={incIdx} />
+        <button className="btn surprise-btn" onClick={handleSurprise}>
+          surprise me
+        </button>
+      </section>
+    </main>
   );
 };
 export default App;
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MainNoTours = styled.main`
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  h1 {
-    font-size: 4rem;
-    text-transform: capitalize;
-    margin-bottom: 3.6rem;
-    font-weight: 400;
-  }
-`;
-
-const Container = styled.section`
-  padding: 2.4rem 3.2rem;
-  text-align: center;
-
-  h1 {
-    font-size: 4rem;
-    font-weight: 400;
-    margin-bottom: 1.6rem;
-  }
-
-  .divider {
-    display: inline-block;
-
-    width: 11.2rem;
-    height: 4px;
-    border: 0;
-    border-top: 3px solid #10b981;
-
-    margin-bottom: 3.2rem;
-  }
-`;
