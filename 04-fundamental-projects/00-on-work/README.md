@@ -1,62 +1,96 @@
 ## Figma URL
 
-[Reviews](https://www.figma.com/file/e8L2QiR4GVTa5cGuRpXtk3/Reviews?node-id=0%3A1&t=gcCYcePiKxnkJ9kH-1)
+[Menu](https://www.figma.com/file/PwlnSJXCuo4qD2o6EJiuj9/Menu?node-id=0%3A1&t=oaKVwYVqc9Oon2Ts-1)
 
 ## Steps
 
-#### Explore Data
+#### Title Component
 
-Navigate to data.js and take a look at the data structure
+First, you need to create a Title component to display the main title of your app. This component can be a simple function that returns a heading element with the app title.
 
-#### Import Reviews
+#### Explore and Import Data
 
-First, import the reviews data into your project. This data should be an array of objects, with each object representing a person's review and containing properties such as name, job, image URL, and text.
+Import the menu items data from data.js into your project. This data should be an array of objects, with each object representing a menu item and containing properties such as title, price, image URL, and description.
 
-#### Setup State Value (Index)
+#### State Value
 
-Then, set up a state value that controls which person from the list is displayed.
+Set up the menu items data as a state variable in the App.jsx component using the useState hook. This will allow you to modify the data and have those changes automatically reflected in the rendered output.
 
-#### React Icons (Optional)
+#### Render Items
 
-[Docs](https://react-icons.github.io/react-icons/)
+Pass the menu items state value down to the Menu.jsx component. In the Menu component, iterate over the list of menu items using the map method, and for every item, render a MenuItem component.
 
-```sh
-npm install react-icons --save
-```
+In the MenuItem component, render an image element, a title, a price, and a description. You can use the data from the menu items array to fill in the information for each component.
 
-App.jsx
+#### Unique Categories
 
-```js
-import { FaBeer } from 'react-icons/fa';
-const App = () => {
-  return;
-  <div>
-    <h2>Reviews Starter</h2>;
-    <FaBeer className='beer' />
-  </div>;
-};
-```
+In the App.jsx component, set up functionality to get only the unique categories from the menu items data and store them in a separate array. Add an "all" category to this array to display all menu items.
+Hint : new Set ()
+You can find more info on Set Object below after all steps.
 
-#### Render First Person
+#### State Value and Render Categories
 
-To render the first person in the list, you can access the first item in the reviews array and use its properties to display the person's image (inline styles), name, job, and review text.
+Set up the categories array as a state variable in the App.jsx component using the useState hook. This will allow you to modify the data and have those changes automatically reflected in the rendered output.
 
-#### Prev and Next
+Create a Categories component and pass the categories state value down to this component. In the Categories component, iterate over the categories array and render buttons for each category.
 
-To allow the user to cycle through the reviews, you can set up buttons to display the next and previous reviews in the list. You can do this by keeping track of the current index in the reviews array, and updating the index when the user clicks the next or previous button. You can then use the updated index to access the corresponding person's review from the reviews array.
+#### Filter Functionality
 
-#### Random
+Set up filter functionality where once the user clicks on the button, only the menu items that belong to the selected category are displayed. To do this, define a function that takes a category as a parameter and updates the state to show only the menu items that belong to that category. You can then pass this function down to the Categories component as a prop, and attach it to the buttons.
 
-To allow the user to display a random person's review, you can set up a button with functionality to randomly select an index in the reviews array. You can then use the selected index to display the corresponding person's review.
-
-#### Extra
-
-The modulus operator in JavaScript is represented by the percent sign (%). It returns the remainder of a division operation between two numbers.
+When the user clicks on a category button, the filter function should be called with the selected category as a parameter. The function should then update the state to show only the menu items that belong to the selected category.
 
 Overall, the flow of the application should look something like this:
 
-- Import the reviews data into your project as an array of objects.
-- Set up the reviews data as a state variable using the useState hook.
-- Render the first person's review in the list using their image, name, job, and text properties.
-- Set up buttons to display the next and previous reviews in the list. Keep track of the current index in the reviews array and update it when the user clicks the next or previous button.
-- Set up a button to display a random person's review. This button should select a random index in the reviews array and use it to display the corresponding person's review.
+- Create a Title component to display the app title.
+- Import the menu items data from data.js into your project.
+- Set up the menu items data as a state variable in the App.jsx component.
+- Pass the menu items state value down to the Menu.jsx component and render a MenuItem component for each item in the menu items array.
+- In the MenuItem component, display the image, title, price, and description.
+- Set up functionality to get only the unique categories from the menu items data and store them in a separate array, including an "all" category to display all menu items.
+- Set up the categories array as a state variable in the App.jsx component.
+- Create a Categories component and render a button for each category in the categories array.
+- Define a function that takes a category as a parameter and updates the state to show only the menu items that belong to that category.
+- Attach the filter function to the category buttons in the Categories component.
+- Repeat steps 9-10 until the user has selected a different category or chooses to exit the Menu component.
+
+#### Set Object
+
+[JS Nuggets - new Set()](https://www.youtube.com/watch?v=H4NnCItCZWE&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ&index=26)
+
+In JavaScript, the Set object is a collection of unique values. It allows you to store values of any type, such as primitive types (numbers, strings, booleans) and object references.
+
+Here's a simple example of using a Set:
+
+```js
+// Create a new set
+let mySet = new Set();
+
+// Add values to the set
+mySet.add(1);
+mySet.add(2);
+mySet.add(3);
+
+// Add a duplicate value (ignored)
+mySet.add(1);
+
+// Get the size of the set (3)
+console.log(mySet.size);
+
+// Check if a value is in the set (true)
+console.log(mySet.has(2));
+
+// Remove a value from the set
+mySet.delete(2);
+
+// Get an array of all values in the set
+let myArray = Array.from(mySet);
+console.log(myArray); // [1, 3]
+```
+
+```js
+const tempCategories = menu.map((item) => item.category);
+const tempSet = new Set(tempCategories);
+const tempItems = ['all', ...tempSet];
+console.log(tempItems);
+```
