@@ -1,77 +1,76 @@
 main {
+  margin-top: 160px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.container {
-  padding: 6.4rem 3.2rem;
-  max-width: 1440;
-}
-
-.heading-primary {
-  margin-bottom: 4rem;
+.main-container {
+  width: 60rem;
   text-align: center;
+  margin-bottom: 3.6rem;
 
-  text-transform: capitalize;
-  font-weight: 400;
+  .heading-primary {
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
 }
-
-.categories {
+.form {
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  align-items: center;
+  gap: 8px;
 
-  margin-bottom: 6.3rem;
-
-  .category {
-    padding: 6px 12px;
-
-    border-radius: 4px;
-    background-color: #f59e0b;
+  .form-label {
     text-transform: capitalize;
+    letter-spacing: 1px;
+    font-size: 2rem;
+  }
+
+  .form-number {
+    border: none;
+    background-color: #cbd5e1;
+    border-radius: 4px;
+    padding: 5px 10px;
+    width: 6.4rem;
+    height: 3.5rem;
+    font-size: 20px;
+  }
+
+  .btn {
+    padding: 10px 12px;
+
     color: #fff;
-    // margin: ;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    border: none;
+    background: #10b981;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
 
     cursor: pointer;
-
-    transition: all 1s;
-  }
-
-  .category:hover {
-    background-color: #a77a2b;
   }
 }
 
-.menu-list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3.3rem;
-}
+.text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 
-.item-container {
-  width: 367px;
-  .img-box {
-    .img {
-      width: 367px;
-      height: 240px;
-    }
-  }
+  .paragraph {
+    width: 60rem;
 
-  .text-box {
-    padding: 3.4rem 3.2rem 2rem 2.4rem;
-    background-color: #fff;
-
-    .heading-secondary {
-      text-transform: capitalize;
-      margin-bottom: 2.2rem;
-    }
-
-    .price {
-    }
-
-    .description {
-    }
+    font-family: "Roboto";
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    text-align: justify;
+    color: #0f172a;
   }
 }
