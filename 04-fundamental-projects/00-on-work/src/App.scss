@@ -1,5 +1,5 @@
 main {
-  margin-top: 160px;
+  margin: 10.2rem auto;
 
   display: flex;
   flex-direction: column;
@@ -7,70 +7,56 @@ main {
   justify-content: center;
 }
 
-.main-container {
-  width: 60rem;
-  text-align: center;
-  margin-bottom: 3.6rem;
+.questions-box {
+  width: 80rem;
+  padding: 4rem;
 
-  .heading-primary {
-    font-size: 2.5rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
+  background: #ffffff;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
 }
-.form {
+
+.heading-primary {
+  margin-bottom: 2.6rem;
+
+  font-size: 4.8rem;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  font-weight: 400;
+  text-align: center;
+}
+
+.text-box {
+  margin-bottom: 3.2rem;
+  padding: 1.9rem 2.6rem;
+  background: rgba(255, 255, 255, 0.002);
+  border: 2px solid #e2e8f0;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.question {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
 
-  .form-label {
-    text-transform: capitalize;
-    letter-spacing: 1px;
+  .text {
     font-size: 2rem;
-  }
-
-  .form-number {
-    border: none;
-    background-color: #cbd5e1;
-    border-radius: 4px;
-    padding: 5px 10px;
-    width: 6.4rem;
-    height: 3.5rem;
-    font-size: 20px;
+    font-weight: 500;
   }
 
   .btn {
-    padding: 10px 12px;
-
-    color: #fff;
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-transform: capitalize;
-    border: none;
-    background: #10b981;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-    border-radius: 4px;
-
+    width: 3.2rem;
+    height: 3.2rem;
     cursor: pointer;
   }
 }
 
-.text-container {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+.answer {
+  margin-top: 1.7rem;
 
-  .paragraph {
-    width: 60rem;
-
-    font-family: "Roboto";
-    font-weight: 400;
-    font-size: 1.6rem;
-    line-height: 2.2rem;
-    text-align: justify;
-    color: #0f172a;
-  }
+  line-height: 30px;
+  letter-spacing: 1px;
 }
