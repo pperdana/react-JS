@@ -1,52 +1,39 @@
-import { useEffect, useState } from "react";
-import Values from "values.js";
-import { ToastContainer, toast } from "react-toastify";
-
 import Form from "./Form";
+import Items from "./Items";
+import { useState } from "react";
 import "./App.scss";
-import ColorList from "./ColorList";
+import { nanoid } from "nanoid";
 
 const App = () => {
-  const [hexColor, setHexColor] = useState("#f15025");
-  const [colorValues, setColorValues] = useState([]);
+  const [items, setItems] = useState([]);
 
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("Text copied to clipboard");
-    } catch (error) {
-      toast.error("Failed to copy text: ", error);
-    }
+  const addItems = (name) => {
+    const newItems = { name, completed: false, id: nanoid() };
+    setItems([...items, newItems]);
   };
 
-  useEffect(() => {
-    setColorValues(new Values(hexColor).all(10));
-  }, []);
+  const removeItem = (id) => {
+    const newItem = items.filter((item) => item.id !== id);
+    setItems(newItem);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-      setColorValues(new Values(hexColor).all(10));
-    } catch (error) {
-      toast.error("Unable to parse color", error);
-    }
+  const editItem = (id) => {
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        const newItem = { ...item, completed: !item.completed };
+        return newItem;
+      }
+      return item;
+    });
+    setItems(newItems);
   };
 
   return (
     <main>
-      <ToastContainer position="top-center" />
       <section className="form-container">
-        <Form
-          hexColor={hexColor}
-          setHexColor={setHexColor}
-          handleSubmit={handleSubmit}
-        />
-      </section>
-      <section className="color-container">
-        <ColorList
-          colorValues={colorValues}
-          copyToClipboard={copyToClipboard}
-        />
+        <h2 className="heading-primary">grocery bud</h2>
+        <Form addItems={addItems} />
+        <Items items={items} removeItem={removeItem} editItem={editItem} />
       </section>
     </main>
   );

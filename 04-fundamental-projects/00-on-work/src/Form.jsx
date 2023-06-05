@@ -1,26 +1,26 @@
-const Form = ({ hexColor, setHexColor, handleSubmit }) => {
+import { useState } from "react";
+
+const Form = ({ addItems }) => {
+  const [name, setName] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name) return;
+    addItems(name);
+    setName("");
+  };
+
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <h1 className="heading-primary">color generator</h1>
-      <input
-        type="color"
-        value={hexColor}
-        onChange={(e) => setHexColor(e.target.value)}
-        className="color-input"
-      />
       <input
         type="text"
-        value={hexColor}
-        onChange={(e) => setHexColor(e.target.value)}
+        name="name"
         className="text-input"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
-      <button
-        style={{
-          background: `${hexColor}`,
-        }}
-        className="btn"
-      >
-        submit
+      <button type="submit" className="btn">
+        add item
       </button>
     </form>
   );
