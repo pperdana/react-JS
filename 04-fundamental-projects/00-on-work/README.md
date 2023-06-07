@@ -1,99 +1,263 @@
 ## Figma URL
 
-[Grocery Bud](https://www.figma.com/file/8rXGl68NoEmAhHpcV7aB5o/Grocery-bud?node-id=0%3A1&t=IMjjwDExGWpXdpQL-1)
+[Navbar](https://www.figma.com/file/Se61eLfK50x0JatmdSdLzL/Navbar?node-id=0%3A1&t=iDQ4v9bsLeblAFUK-1)
 
 ## Steps
 
-#### State Variable
+#### Data
 
-In App.jsx, set up a state variable called items using the useState hook.
+Check the data.jsx file and find two arrays: one for links and one for social icons. Notice how icons from react-icons can be used directly in the data structures. Just make sure in Vite to use .jsx file extension
 
-#### Form Component
+#### Initial Approach
 
-Create a Form component that contains an input field and a submit button. When the user submits the form, the handleSubmit function is called.
+Set up a Navbar component with a showLinks state value (boolean). Import the links from data and render them conditionally in the Navbar based on the showLinks state value. Set up a button that toggles the value and as a result, toggles the links. Set up CSS for the Navbar.
 
-In the handleSubmit function, prevent the default form submission behavior using event.preventDefault(). If the form is submitted with an empty value, log a message and return.
+#### Fixed Approach
 
-#### Add Item
+Hide links by default in the CSS. Create a class that displays links with a fixed height. Refactor the JSX in the Navbar to toggle the class, which in turn toggles the Navbar.
 
-If the form is submitted with a value, create a new item object that includes a name (taken from the form input), a completed property (default value false), and a unique id (generated using a library like uuid or nanoid).
+#### Dynamic Approach
 
-Add the new item to the items state variable using the setItems function.
+Use the useRef and getBoundingClientRect() function, to get exact height of links
 
-#### Render List
+[Javascript Nuggets - Width/Height](https://www.youtube.com/watch?v=v8YENdbDv1w&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ&index=20)
 
-Create two new components: Items and SingleItem. In Items, iterate over the list of items and render each one in a SingleItem component. For now, only render the name of the item.
+#### Complete App
 
-#### SingleItem
+Finally, add social links and CSS to render the Navbar on the big screen.
 
-In SingleItem, set up a state variable called isChecked with a default value of the item's completed property. Render a checkbox and add inline styles to add or remove the text-decoration: line-through property based on the isChecked value. Set up functionality to toggle the isChecked state variable when the checkbox is clicked.
+#### Application Flow
 
-#### Remove Item
+The flow of the application should look something like this:
 
-In App.jsx, create a removeItem function and pass it down to the SingleItem component. In SingleItem, add a button that, when clicked, removes the item from the list.
+- Check the data.js file and find two arrays: one for links and one for social icons.
 
-#### Local Storage
+- Set up a Navbar component with a showLinks state value (boolean). Import the links from data and render them conditionally in the Navbar based on the showLinks state value. Set up a button that toggles the value and as a result, toggles the links. Set up CSS for the Navbar.
 
-Set up local storage functionality to persist the list of items across page reloads.
-More info below.
+- Hide links by default in the CSS. Create a class that displays links with a fixed height. Refactor the JSX in the Navbar to toggle the class, which in turn toggles the Navbar.
 
-#### Global Edit
+- Use the useRef and getBoundingClientRect() function, to get exact height of links
 
-Instead of 'local' value, set completed 'globally' (in the list) and save result in the local storage.
+- Add social links and CSS to render the Navbar on the big screen.
 
-#### React-Toastify
+#### Initial Approach
 
-Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
-
-Overall, the flow of the application should look something like this:
-
-- In App.jsx, set up a state variable called items using the useState hook.
-- Create a Form component that contains an input field and a submit button, and set up the handleSubmit function to add new items to the list.
-- Create two new components: Items and SingleItem, and use them to render the list of items.
-- Set up local storage functionality to persist the list of items across page reloads.
-- Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
-
-#### Local Storage
-
-localStorage is a built-in object in web browsers that allows web applications to store key-value pairs locally within the user's browser.
-
-To store data in localStorage, you can use the localStorage.setItem(key, value) method, where key is a unique identifier for the data being stored and value is the data you want to store. Note that the value parameter needs to be a string.
-
-Here's an example of how to use localStorage.setItem():
+Navbar.jsx
 
 ```js
-localStorage.setItem('username', 'John');
-```
+import { useState } from 'react';
+import { FaBars } from 'react-icons/fa';
+import { links, social } from './data';
+import logo from './logo.svg';
 
-This code stores the string 'John' with the key 'username' in localStorage.
+const Navbar = () => {
+  const [showLinks, setShowLinks] = useState(false);
 
-To retrieve data from localStorage, you can use the localStorage.getItem(key) method, where key is the unique identifier for the data you want to retrieve. This method returns the value associated with the key you pass in, as a string.
+  const toggleLinks = () => {
+    setShowLinks(!showLinks);
+  };
 
-Here's an example of how to use localStorage.getItem() to retrieve the value of the 'username' key we set earlier:
-
-```js
-const username = localStorage.getItem('username');
-console.log(username); // outputs 'John'
-```
-
-Note that localStorage can only store strings, so if you need to store objects or other data types, you'll need to convert them to strings first. One way to do this is to use JSON.stringify() to convert your data to a JSON string before storing it in localStorage, and then use JSON.parse() to convert it back to an object when you retrieve it.
-
-For example:
-
-```js
-const user = {
-  name: 'John',
-  age: 30,
-  email: 'john@example.com',
+  return (
+    <nav>
+      <div className='nav-center'>
+        <div className='nav-header'>
+          <img src={logo} className='logo' alt='logo' />
+          <button className='nav-toggle' onClick={toggleLinks}>
+            <FaBars />
+          </button>
+        </div>
+        {showLinks && (
+          <div className='links-container'>
+            <ul className='links'>
+              {links.map((link) => {
+                const { id, url, text } = link;
+                return (
+                  <li key={id}>
+                    <a href={url}>{text}</a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
 };
 
-localStorage.setItem('user', JSON.stringify(user));
-
-const storedUser = JSON.parse(localStorage.getItem('user'));
-
-console.log(storedUser.name); // outputs 'John'
-console.log(storedUser.age); // outputs 30
-console.log(storedUser.email); // outputs 'john@example.com'
+export default Navbar;
 ```
 
-In summary, localStorage allows you to store key-value pairs locally in the user's browser using localStorage.setItem() and retrieve those values using localStorage.getItem(). However, note that localStorage can only store strings, so you'll need to convert other data types to strings before storing them.
+```css
+nav {
+  background: var(--white);
+  box-shadow: var(--shadow-1);
+}
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.nav-toggle {
+  font-size: 1.5rem;
+  color: var(--primary-500);
+  background: transparent;
+  border-color: transparent;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.nav-toggle:hover {
+  color: var(--primary-700);
+  transform: rotate(90deg);
+}
+.logo {
+  height: 40px;
+}
+.links a {
+  color: var(--grey-700);
+  font-size: 1rem;
+  text-transform: capitalize;
+  letter-spacing: var(--letterSpacing);
+  display: block;
+  padding: 0.5rem 1rem;
+  transition: var(--transition);
+}
+.links a:hover {
+  background: var(--primary-100);
+  color: var(--primary-500);
+  padding-left: 1.5rem;
+}
+```
+
+#### Fixed Approach
+
+```css
+.links-container {
+  height: 0;
+  overflow: hidden;
+  transition: var(--transition);
+}
+.show-container {
+  height: 10rem;
+}
+```
+
+```js
+<div
+  className={showLinks ? 'links-container show-container' : 'links-container'}
+>
+  <ul className='links'>....links</ul>
+</div>
+```
+
+#### Dynamic Approach
+
+```css
+.links-container {
+  overflow: hidden;
+  transition: var(--transition);
+}
+```
+
+```js
+import { useState, useRef } from 'react';
+import { FaBars } from 'react-icons/fa';
+import { links, social } from './data';
+import logo from './logo.svg';
+
+const Navbar = () => {
+  const [showLinks, setShowLinks] = useState(false);
+  const linksContainerRef = useRef(null);
+  const linksRef = useRef(null);
+
+  const toggleLinks = () => {
+    setShowLinks(!showLinks);
+  };
+  const linkStyles = {
+    height: showLinks
+      ? `${linksRef.current.getBoundingClientRect().height}px`
+      : '0px',
+  };
+  return (
+    <nav>
+      <div className='nav-center'>
+        <div className='nav-header'>
+          <img src={logo} className='logo' alt='logo' />
+          <button className='nav-toggle' onClick={toggleLinks}>
+            <FaBars />
+          </button>
+        </div>
+
+        <div
+          className='links-container'
+          ref={linksContainerRef}
+          style={linkStyles}
+        >
+          <ul className='links' ref={linksRef}>
+            {links.map((link) => {
+              const { id, url, text } = link;
+              return (
+                <li key={id}>
+                  <a href={url}>{text}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+#### Complete APP CSS
+
+```css
+.social-icons {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  .nav-center {
+    max-width: 1170px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+  .nav-header {
+    padding: 0;
+  }
+  .nav-toggle {
+    display: none;
+  }
+  .links-container {
+    height: auto !important;
+  }
+  .links {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .links a {
+    padding: 0;
+  }
+  .links a:hover {
+    padding: 0;
+    background: transparent;
+  }
+  .social-icons {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .social-icons a {
+    color: var(--primary-500);
+    transition: var(--transition);
+  }
+  .social-icons a:hover {
+    color: var(--primary-300);
+  }
+}
+```
