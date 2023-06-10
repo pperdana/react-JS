@@ -1,35 +1,67 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import reducer from "./reducer";
+import cartItems from "./data";
+
+import {
+  CLEAR_CART,
+  REMOVE,
+  INCREASE,
+  DECREASE,
+  LOADING,
+  DISPLAY_ITEMS,
+} from "./actions";
+const url = "https://www.course-api.com/react-useReducer-cart-project";
+
+import { getTotals } from "./utils";
 
 const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isModelOpen, setIsModelOpen] = useState(false);
+const initialState = {
+  loading: false,
+  cart: new Map(),
+};
 
-  const openSidebar = () => {
-    setIsSidebarOpen(true);
+export const AppProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { totalAmount, totalCost } = getTotals(state.cart);
+
+  const clearCart = () => {
+    dispatch({ type: CLEAR_CART });
   };
-  const closeSidebar = () => {
-    setIsSidebarOpen(false);
+
+  const remove = (id) => {
+    dispatch({ type: REMOVE, payload: { id } });
   };
-  const openModal = () => {
-    setIsModelOpen(true);
+
+  const increase = (id) => {
+    dispatch({ type: INCREASE, payload: { id } });
   };
-  const closeModal = () => {
-    setIsModelOpen(false);
+
+  const decrease = (id) => {
+    dispatch({ type: DECREASE, payload: { id } });
   };
+
+  const fetchData = async () => {
+    dispatch({ type: LOADING });
+    const response = await fetch(url);
+    const cart = await response.json();
+    dispatch({ type: DISPLAY_ITEMS, payload: { cart } });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <AppContext.Provider
       value={{
-        isSidebarOpen,
-        isModelOpen,
-        openModal,
-        openSidebar,
-        closeModal,
-        closeSidebar,
+        ...state,
+        clearCart,
+        remove,
+        increase,
+        decrease,
+        totalAmount,
+        totalCost,
       }}
     >
       {children}

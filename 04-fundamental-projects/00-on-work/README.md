@@ -1,209 +1,162 @@
 ## Figma URL
 
-[Sidebar and Modal](https://www.figma.com/file/cFyEiRb6jQdVIVK9M5eoe6/Sidebar-and-modal?node-id=0%3A1&t=sg6VSjSNK3T1Uy8P-1)
+[Cart](https://www.figma.com/file/5AwKjnWuM6BhRYmxdQFpky/Cart?node-id=0%3A1&t=lfaO4zazTd7nqF1q-1)
 
 ## Steps
 
-#### Explore Data
+#### Setup
 
-Navigate to data.jsx and explore arrays
+```sh
 
-#### Create Components
+npm install
+```
 
-Create three components: Home, Modal, and Sidebar. Render them in App.jsx.
+```sh
+npm run dev
+```
 
-#### Global Context
+#### Explore
 
-Setup global context and don't forget to implement a custom hook.
+Explore the current application and analyze its functionality.
 
-#### Global State Values
+#### Global Context and useReducer
 
-Setup two state values, both booleans, isSidebarOpen and isModalOpen. Also, set up four functions to open and close the modal and sidebar. Make all of these values available in the application.
+Set up global context and immediately create a general setup for useReducer. Create two files, one for reducer and one for actions.
 
-#### Home Component
+#### Cart State Value
 
-In Home, set up two buttons and get two functions from global context, openSidebar and openModal. Once the user clicks the button, invoke one of the functions. Set up CSS for the buttons.
+In the default state, set cart not as an array but as a new Map().
+More info below.
 
-#### Modal and Sidebar Component
+#### Challenge
 
-Create a Modal component and add modal CSS. Repeat the same steps with the Sidebar component.
+- setup cart with new Map()
+- access and iterate in CartContainer
+
+#### Functionalities
+
+Implement these functionalities in the reducer and actions files, and make them available in the global context.
+
+Clear Cart - an action that clears the entire cart.
+Remove Item - an action that removes a specific item from the cart.
+Increase Amount - an action that increases the quantity of a specific item in the cart.
+Decrease Amount - an action that decreases the quantity of a specific item in the cart.
+
+#### Calculate Totals
+
+Calculate Totals - a function that calculates the total cost of items in the cart.
+
+#### Fetch Data
+
+```js
+const url = 'https://www.course-api.com/react-useReducer-cart-project';
+```
+
+Fetch Data - an action that fetches data from an API and stores it in the cart state.
+
+#### Test
+
+Test the functionality of the application and fix any issues that arise.
 
 The flow of the application should look something like this:
 
-- Setup global context and implement a custom hook.
+- Explore the current application and analyze its functionality.
+- Set up global context and immediately create a general setup for useReducer. - - Create two files, one for reducer and one for actions.
+- In the default state, set cart not as an array but as a new Map().
+- Create the following functionalities: Clear Cart, Remove Item, Increase Amount, Decrease Amount, Fetch Data, and Calculate Totals.
+- Implement these functionalities in the reducer and actions files, and make them available in the global context.
+- Test the functionality of the application and fix any issues that arise
 
-- Setup two state values, both booleans, isSidebarOpen and isModalOpen. Also, set up four functions to open and close the modal and sidebar. Make all of these values available in the application.
+#### Data Structure Options
 
-- Create three components: Home, Modal, and Sidebar. Render them in App.jsx.
+- array
 
-- In Home, set up two buttons and get two functions from global context, openSidebar and openModal. Once the user clicks the button, invoke one of the functions. Set up CSS for the buttons.
+```js
+const cart = [
+  { id: 1, name: 'first', price: 10 },
+  { id: 2, name: 'second', price: 20 },
+];
+```
 
-- Create a Modal component and add modal CSS. Repeat the same steps with the Sidebar component.
+Using an array to store shopping cart data may not be the best option because it can be less efficient for lookups and updates, especially for larger datasets. Arrays are also less flexible than Maps when it comes to associating values with unique identifiers.
 
-```css
-main {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: var(--grey-100);
-}
-.sidebar-toggle {
-  position: fixed;
-  top: 2rem;
-  left: 3rem;
-  font-size: 2rem;
-  background: transparent;
-  border-color: transparent;
-  color: var(--primary-500);
-  transition: var(--transition);
-  cursor: pointer;
-  animation: bounce 2s ease-in-out infinite;
-}
+- object
 
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+```js
+const cart = {
+  'id-1': { id: 1, name: 'first', price: 10 },
+  'id-2': { id: 2, name: 'second', price: 20 },
+};
+```
 
-/*
-=============== 
-Modal
-===============
-*/
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: grid;
-  place-items: center;
-  z-index: -1;
-  visibility: hidden;
-  opacity: 0;
-}
-/* OPEN/CLOSE MODAL */
-.show-modal {
-  opacity: 1;
-  transition-property: opacity;
-  transition-duration: 2s;
-  visibility: visible;
-  z-index: 10;
-}
-.modal-container {
-  background: var(--white);
-  border-radius: var(--borderRadius);
-  width: 90vw;
-  height: 30vh;
-  max-width: var(--fixed-width);
-  text-align: center;
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-.close-modal-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-  background: transparent;
-  border-color: transparent;
-  color: var(--red-dark);
-  cursor: pointer;
-}
+The downsides of using an object to store shopping cart data include the risk of unintended property overwriting or unexpected behavior when iterating over inherited properties. Additionally, objects can only use string keys, which can be limiting if you need to use non-string keys. Deleting properties from an object can also be tricky, especially when dealing with inherited properties.
 
-/*
-=============== 
-Sidebar
-===============
-*/
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--white);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  row-gap: 1rem;
-  box-shadow: var(---red-dark);
-  transition: var(--transition);
-  transform: translate(-100%);
-}
-.show-sidebar {
-  transform: translate(0);
-}
-@media screen and (min-width: 676px) {
-  .sidebar {
-    width: 400px;
-  }
-}
+- new Map()
 
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-}
-.close-btn {
-  font-size: 1.75rem;
-  background: transparent;
-  border-color: transparent;
-  color: var(--primary-500);
-  cursor: pointer;
-  color: var(--red-dark);
-}
+For a shopping cart application, using a new Map() to store the cart data is beneficial because it allows for efficient lookups and updates based on unique product IDs. Using a Map can also ensure that each item in the cart has a unique identifier and can easily be updated or removed without affecting other items in the cart.
 
-.logo {
-  height: 40px;
-}
+#### Map
 
-.links a {
-  display: flex;
-  align-items: center;
-  font-size: 1.25rem;
-  text-transform: capitalize;
-  padding: 1rem 1.5rem;
-  color: var(--grey-700);
-  transition: var(--transition);
-  letter-spacing: var(--letterSpacing);
-}
+A Map is a built-in data structure in JavaScript that allows you to store key-value pairs, where both the keys and values can be any data type. Here's a simple example:
 
-.links a:hover {
-  background: var(--grey-100);
-  color: var(--grey-800);
+```js
+// create a new Map instance
+const cart = new Map();
+
+// set some key-value pairs
+
+cart.set('apple', { name: 'Apple', price: 0.5, quantity: 3 });
+cart.set('banana', { name: 'Banana', price: 0.3, quantity: 6 });
+cart.set('orange', { name: 'Orange', price: 0.4, quantity: 4 });
+
+// get the value associated with a key
+const appleDetails = cart.get('apple'); // returns { name: 'Apple', price: 0.5, quantity: 3 }
+
+// check if a key exists in the map
+const hasPear = cart.has('pear'); // returns false
+
+// get the number of key-value pairs in the map
+const size = cart.size; // returns 3
+
+// delete a key-value pair from the map
+cart.delete('banana');
+
+// loop over the key-value pairs in the map
+for (let [key, { name, price, quantity }] of cart) {
+  console.log(key, name, price, quantity); // prints 'apple' 'Apple' 0.5 3, 'banana' 'Banana' 0.3 6, 'orange' 'Orange' 0.4 4
 }
-.links a svg {
-  font-size: 1.5rem;
-  color: var(--grey-500);
-  margin-right: 1rem;
-  transition: var(--transition);
-}
-.links a:hover svg {
-  color: var(--grey-600);
-}
-.social-icons {
-  justify-self: center;
-  display: flex;
-  padding-bottom: 2rem;
-}
-.social-icons a {
-  font-size: 1.5rem;
-  margin: 0 0.5rem;
-  color: var(--primary-500);
-  transition: var(--transition);
-}
-.social-icons a:hover {
-  color: var(--primary-800);
-}
+```
+
+#### JS Nuggets Video
+
+[Array.from](https://www.youtube.com/watch?v=zg1Bv4xubwo&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ&index=11)
+
+#### Converting
+
+```js
+const items = [
+  { id: 1, name: 'first', price: 10 },
+  { id: 2, name: 'second', price: 20 },
+];
+const cartItems = items.map((item) => [item.id, item]);
+
+console.log(cartItems);
+// prints:
+// [
+//   [1, { id: 1, name: 'first', price: 10 }],
+//   [2, { id: 2, name: 'second', price: 20 }],
+// ];
+
+// create a new Map instance
+const cart = new Map(cartItems);
+
+// convert the Map to an array of key-value pairs
+const cartArray = Array.from(cart.entries());
+
+console.log(cartArray);
+// prints:
+// [
+//   [1, { id: 1, name: 'first', price: 10 }],
+//   [2, { id: 2, name: 'second', price: 20 }]
+// ]
 ```

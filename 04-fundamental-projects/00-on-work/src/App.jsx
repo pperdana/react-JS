@@ -1,14 +1,25 @@
-import Home from "./Home";
-import Modal from "./Modal";
-import Sidebar from "./Sidebar";
+// components
+import Navbar from "./Navbar";
+import CartContainer from "./CartContainer";
+import { useGlobalContext } from "./context";
 
-const App = () => {
+function App() {
+  const { loading } = useGlobalContext();
+
+  if (loading) {
+    return (
+      <main>
+        <div className="loading" style={{ marginTop: "12rem" }}></div>
+      </main>
+    );
+  }
+
   return (
-    <>
-      <Home />
-      <Modal />
-      <Sidebar />
-    </>
+    <main>
+      <Navbar />
+      <CartContainer />
+    </main>
   );
-};
+}
+
 export default App;
