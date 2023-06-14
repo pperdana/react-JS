@@ -1,162 +1,99 @@
 ## Figma URL
 
-[Cart](https://www.figma.com/file/5AwKjnWuM6BhRYmxdQFpky/Cart?node-id=0%3A1&t=lfaO4zazTd7nqF1q-1)
+[Grocery Bud](https://www.figma.com/file/8rXGl68NoEmAhHpcV7aB5o/Grocery-bud?node-id=0%3A1&t=IMjjwDExGWpXdpQL-1)
 
 ## Steps
 
-#### Setup
+#### State Variable
 
-```sh
+In App.jsx, set up a state variable called items using the useState hook.
 
-npm install
-```
+#### Form Component
 
-```sh
-npm run dev
-```
+Create a Form component that contains an input field and a submit button. When the user submits the form, the handleSubmit function is called.
 
-#### Explore
+In the handleSubmit function, prevent the default form submission behavior using event.preventDefault(). If the form is submitted with an empty value, log a message and return.
 
-Explore the current application and analyze its functionality.
+#### Add Item
 
-#### Global Context and useReducer
+If the form is submitted with a value, create a new item object that includes a name (taken from the form input), a completed property (default value false), and a unique id (generated using a library like uuid or nanoid).
 
-Set up global context and immediately create a general setup for useReducer. Create two files, one for reducer and one for actions.
+Add the new item to the items state variable using the setItems function.
 
-#### Cart State Value
+#### Render List
 
-In the default state, set cart not as an array but as a new Map().
+Create two new components: Items and SingleItem. In Items, iterate over the list of items and render each one in a SingleItem component. For now, only render the name of the item.
+
+#### SingleItem
+
+In SingleItem, set up a state variable called isChecked with a default value of the item's completed property. Render a checkbox and add inline styles to add or remove the text-decoration: line-through property based on the isChecked value. Set up functionality to toggle the isChecked state variable when the checkbox is clicked.
+
+#### Remove Item
+
+In App.jsx, create a removeItem function and pass it down to the SingleItem component. In SingleItem, add a button that, when clicked, removes the item from the list.
+
+#### Local Storage
+
+Set up local storage functionality to persist the list of items across page reloads.
 More info below.
 
-#### Challenge
+#### Global Edit
 
-- setup cart with new Map()
-- access and iterate in CartContainer
+Instead of 'local' value, set completed 'globally' (in the list) and save result in the local storage.
 
-#### Functionalities
+#### React-Toastify
 
-Implement these functionalities in the reducer and actions files, and make them available in the global context.
+Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
 
-Clear Cart - an action that clears the entire cart.
-Remove Item - an action that removes a specific item from the cart.
-Increase Amount - an action that increases the quantity of a specific item in the cart.
-Decrease Amount - an action that decreases the quantity of a specific item in the cart.
+Overall, the flow of the application should look something like this:
 
-#### Calculate Totals
+- In App.jsx, set up a state variable called items using the useState hook.
+- Create a Form component that contains an input field and a submit button, and set up the handleSubmit function to add new items to the list.
+- Create two new components: Items and SingleItem, and use them to render the list of items.
+- Set up local storage functionality to persist the list of items across page reloads.
+- Implement the react-toastify library to handle alerts when a new item is added to the list, when the user tries to submit an empty form, and when an item is removed from the list.
 
-Calculate Totals - a function that calculates the total cost of items in the cart.
+#### Local Storage
 
-#### Fetch Data
+localStorage is a built-in object in web browsers that allows web applications to store key-value pairs locally within the user's browser.
+
+To store data in localStorage, you can use the localStorage.setItem(key, value) method, where key is a unique identifier for the data being stored and value is the data you want to store. Note that the value parameter needs to be a string.
+
+Here's an example of how to use localStorage.setItem():
 
 ```js
-const url = 'https://www.course-api.com/react-useReducer-cart-project';
+localStorage.setItem('username', 'John');
 ```
 
-Fetch Data - an action that fetches data from an API and stores it in the cart state.
+This code stores the string 'John' with the key 'username' in localStorage.
 
-#### Test
+To retrieve data from localStorage, you can use the localStorage.getItem(key) method, where key is the unique identifier for the data you want to retrieve. This method returns the value associated with the key you pass in, as a string.
 
-Test the functionality of the application and fix any issues that arise.
-
-The flow of the application should look something like this:
-
-- Explore the current application and analyze its functionality.
-- Set up global context and immediately create a general setup for useReducer. - - Create two files, one for reducer and one for actions.
-- In the default state, set cart not as an array but as a new Map().
-- Create the following functionalities: Clear Cart, Remove Item, Increase Amount, Decrease Amount, Fetch Data, and Calculate Totals.
-- Implement these functionalities in the reducer and actions files, and make them available in the global context.
-- Test the functionality of the application and fix any issues that arise
-
-#### Data Structure Options
-
-- array
+Here's an example of how to use localStorage.getItem() to retrieve the value of the 'username' key we set earlier:
 
 ```js
-const cart = [
-  { id: 1, name: 'first', price: 10 },
-  { id: 2, name: 'second', price: 20 },
-];
+const username = localStorage.getItem('username');
+console.log(username); // outputs 'John'
 ```
 
-Using an array to store shopping cart data may not be the best option because it can be less efficient for lookups and updates, especially for larger datasets. Arrays are also less flexible than Maps when it comes to associating values with unique identifiers.
+Note that localStorage can only store strings, so if you need to store objects or other data types, you'll need to convert them to strings first. One way to do this is to use JSON.stringify() to convert your data to a JSON string before storing it in localStorage, and then use JSON.parse() to convert it back to an object when you retrieve it.
 
-- object
+For example:
 
 ```js
-const cart = {
-  'id-1': { id: 1, name: 'first', price: 10 },
-  'id-2': { id: 2, name: 'second', price: 20 },
+const user = {
+  name: 'John',
+  age: 30,
+  email: 'john@example.com',
 };
+
+localStorage.setItem('user', JSON.stringify(user));
+
+const storedUser = JSON.parse(localStorage.getItem('user'));
+
+console.log(storedUser.name); // outputs 'John'
+console.log(storedUser.age); // outputs 30
+console.log(storedUser.email); // outputs 'john@example.com'
 ```
 
-The downsides of using an object to store shopping cart data include the risk of unintended property overwriting or unexpected behavior when iterating over inherited properties. Additionally, objects can only use string keys, which can be limiting if you need to use non-string keys. Deleting properties from an object can also be tricky, especially when dealing with inherited properties.
-
-- new Map()
-
-For a shopping cart application, using a new Map() to store the cart data is beneficial because it allows for efficient lookups and updates based on unique product IDs. Using a Map can also ensure that each item in the cart has a unique identifier and can easily be updated or removed without affecting other items in the cart.
-
-#### Map
-
-A Map is a built-in data structure in JavaScript that allows you to store key-value pairs, where both the keys and values can be any data type. Here's a simple example:
-
-```js
-// create a new Map instance
-const cart = new Map();
-
-// set some key-value pairs
-
-cart.set('apple', { name: 'Apple', price: 0.5, quantity: 3 });
-cart.set('banana', { name: 'Banana', price: 0.3, quantity: 6 });
-cart.set('orange', { name: 'Orange', price: 0.4, quantity: 4 });
-
-// get the value associated with a key
-const appleDetails = cart.get('apple'); // returns { name: 'Apple', price: 0.5, quantity: 3 }
-
-// check if a key exists in the map
-const hasPear = cart.has('pear'); // returns false
-
-// get the number of key-value pairs in the map
-const size = cart.size; // returns 3
-
-// delete a key-value pair from the map
-cart.delete('banana');
-
-// loop over the key-value pairs in the map
-for (let [key, { name, price, quantity }] of cart) {
-  console.log(key, name, price, quantity); // prints 'apple' 'Apple' 0.5 3, 'banana' 'Banana' 0.3 6, 'orange' 'Orange' 0.4 4
-}
-```
-
-#### JS Nuggets Video
-
-[Array.from](https://www.youtube.com/watch?v=zg1Bv4xubwo&list=PLnHJACx3NwAfRUcuKaYhZ6T5NRIpzgNGJ&index=11)
-
-#### Converting
-
-```js
-const items = [
-  { id: 1, name: 'first', price: 10 },
-  { id: 2, name: 'second', price: 20 },
-];
-const cartItems = items.map((item) => [item.id, item]);
-
-console.log(cartItems);
-// prints:
-// [
-//   [1, { id: 1, name: 'first', price: 10 }],
-//   [2, { id: 2, name: 'second', price: 20 }],
-// ];
-
-// create a new Map instance
-const cart = new Map(cartItems);
-
-// convert the Map to an array of key-value pairs
-const cartArray = Array.from(cart.entries());
-
-console.log(cartArray);
-// prints:
-// [
-//   [1, { id: 1, name: 'first', price: 10 }],
-//   [2, { id: 2, name: 'second', price: 20 }]
-// ]
-```
+In summary, localStorage allows you to store key-value pairs locally in the user's browser using localStorage.setItem() and retrieve those values using localStorage.getItem(). However, note that localStorage can only store strings, so you'll need to convert other data types to strings before storing them.

@@ -1,25 +1,5 @@
-// components
-import Navbar from "./Navbar";
-import CartContainer from "./CartContainer";
-import { useGlobalContext } from "./context";
-
-function App() {
-  const { loading } = useGlobalContext();
-
-  if (loading) {
-    return (
-      <main>
-        <div className="loading" style={{ marginTop: "12rem" }}></div>
-      </main>
-    );
-  }
-
-  return (
-    <main>
-      <Navbar />
-      <CartContainer />
-    </main>
-  );
-}
+const App = () => {
+  return <h2>Grocery Bud - Starter</h2>;
+};
 
 export default App;
