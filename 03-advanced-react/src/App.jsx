@@ -1,12 +1,10 @@
-import Starter from "./tutorial/09-context-api/starter/Navbar";
-import Final from "./tutorial/09-context-api/final/prop-drilling/Navbar";
+import Starter from "./tutorial/11-performance/starter/03-hooks";
 
 function App() {
   return (
-    <>
-      <Final />
+    <div className="container">
       <Starter />
-    </>
+    </div>
   );
 }
 
